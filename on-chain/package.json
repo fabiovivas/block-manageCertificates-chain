@@ -12,6 +12,7 @@
   "author": "https://github.com/fabiovivas",
   "license": "ISC",
   "dependencies": {
+    "@openzeppelin/contracts": "^3.0.1",
     "@truffle/hdwallet-provider": "^1.0.35",
     "dotenv": "^8.2.0"
   }
