@@ -1,0 +1,24 @@
+{
+  "name": "manage-certificates-ipfs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "https://github.com/fabiovivas",
+  "license": "ISC",
+  "dependencies": {
+    "@truffle/hdwallet-provider": "^1.0.35",
+    "body-parser": "^1.19.0",
+    "consign": "^0.1.6",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "ipfs-http-client": "^44.1.0",
+    "it-all": "^1.0.2",
+    "it-to-buffer": "^1.0.2",
+    "multer": "^1.4.2",
+    "web3": "^1.2.8"
+  }
+}
