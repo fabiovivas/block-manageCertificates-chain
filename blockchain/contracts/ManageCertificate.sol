@@ -1,15 +1,21 @@
+// SPDX-License-Identifier: MIT
 pragma experimental ABIEncoderV2;
 pragma solidity ^0.6.8;
-// SPDX-License-Identifier: MIT
 
-import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
-contract ManageCertificate is Ownable {
+contract ManageCertificate {
+
+    address private owner;
+
+    constructor() public {
+        owner = msg.sender;
+    }
+
     struct Certificate {
         address studentId;
         address schoolId;
         string ipfsId;
     }
-
+    
     mapping(address => bool) public isSchool;
     mapping(address => bool) public isStudent;
     mapping(address => mapping(address => bool)) private studentsBySchool;
@@ -19,6 +25,11 @@ contract ManageCertificate is Ownable {
     event schoolRegistered(address schoolId);
     event studentRegistered(address studentId, address schoolId);
     event CertificateEmited(address studentId, address schoolId, string ipfsId);
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "msg.sender is not a owner");
+        _;
+    }
 
     modifier onlySchool() {
         require(isSchool[msg.sender], "msg.sender is not a school.");
