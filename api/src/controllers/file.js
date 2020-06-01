@@ -1,23 +1,30 @@
 const multer = require('multer')
-const fs = require('fs');
-const { PDFDocument } = require('pdf-lib');
-const http = require('http')
-
 
 module.exports = (app) => {
 
     const storage = multer.memoryStorage()
     const uploadFile = multer({ storage: storage }).any()
 
-    const upload = async (req, res) => {
+    const emiteCertificate = async (req, res) => {
         uploadFile(req, res, async (err) => {
+            const { account, studentAccount } = req.body
+            const isSchool = await app.services.web3Manage.hasSchoolAccess(account)
+
+            if (!isSchool)
+                return res.status(403).send('Only school has access to this service')
+
             if (err)
-                res.status(500).send(err)
+                return res.status(500).send(err)
 
             if (!req.files || req.files.length <= 0)
-                res.status(500).send('erro')
+                return res.status(500).send('Files does not upload')
 
             const cid = await app.services.file.upload(req.files[0].buffer)
+            const emited = await app.services.web3Manage.emiteCertificate(account, studentAccount, cid)
+
+            if (!emited)
+                return res.status(500).send('File does not registered')
+
             res.status(200).send(cid)
         })
     }
@@ -27,12 +34,12 @@ module.exports = (app) => {
 
         res.writeHead(200, {
             'Content-Type': 'application/pdf',
-            'Content-Disposition': 'attachment; filename=working-test.pdf',
+            'Content-Disposition': 'attachment; filename=response.pdf',
             'Content-Length': file.length
         });
         res.end(file);
 
     }
 
-    return { upload, read }
+    return { emiteCertificate, read }
 }
