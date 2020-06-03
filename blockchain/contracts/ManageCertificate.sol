@@ -65,7 +65,7 @@ contract ManageCertificate {
         emit schoolRegistered(msg.sender);
     }
 
-    function registerStudent(address studentId) public onlySchool {
+    function registerStudent(address studentId) public onlySchool correctAddress(studentId) {
         require(msg.sender == studentId, "You can't register yourself like student");
 
         studentsBySchool[msg.sender][studentId] = true;
