@@ -44,7 +44,7 @@ contract ManageCertificate {
     }
 
     modifier correctAddress(address addr) {
-        require(addr == address(0x0), "Invalid address");
+        require(addr != address(0x0), "Invalid address");
         _;
     }
 
@@ -66,10 +66,11 @@ contract ManageCertificate {
     }
 
     function registerStudent(address studentId) public onlySchool correctAddress(studentId) {
-        require(msg.sender == studentId, "You can't register yourself like student");
+        require(msg.sender != studentId, "You can't register yourself like student");
 
         studentsBySchool[msg.sender][studentId] = true;
-        allowAccess(msg.sender);
+        allowAccess(studentId, msg.sender);
+        allowAccess(studentId, studentId);
         isStudent[studentId] = true;
         emit studentRegistered(studentId, msg.sender);
     }
@@ -85,14 +86,15 @@ contract ManageCertificate {
 
     function allowExternalAccess(address addr) public onlyStudent
     {
-        allowAccess(addr);
+        allowAccess(msg.sender, addr);
     }
 
-    function allowAccess(address addr) internal correctAddress(addr) {
-        certificateAccess[msg.sender][addr] = true;
+    function allowAccess(address studentId, address addr) internal correctAddress(addr) {
+        certificateAccess[studentId][addr] = true;
     }
 
     function removeAccess(address addr) public onlyStudent correctAddress(addr) {
+        require(msg.sender != addr, "You can not remove your access");
         certificateAccess[msg.sender][addr] = false;
     }
 
