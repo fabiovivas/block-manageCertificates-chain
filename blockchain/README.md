@@ -31,7 +31,7 @@ Caso queira realizar o deploy em alguma rede especifica rode o comando ```truffl
 
 - O address do contrato estara disponivel em dois lugares depois dos passos acima
 1. No próprio log gerado pelo deploy com o nome de "contract address"
-2. No arquivo ../build/ManageCertificate.json Nesse arquivo há um objeto chamado "networks" que guarda dentro de si informações dos deploys feitos em cada rede escolhida.  
+2. No arquivo ../build/contracts/ManageCertificate.json Nesse arquivo há um objeto chamado "networks" que guarda dentro de si informações dos deploys feitos em cada rede escolhida.  
 Localize o número da rede na qual fez o deploy, dentro dela existe uma propriedade chamada "address" com a informação desejada.
 
 - É possível ver os testes unitários realizados em cima do projeto disponível em ../test/ManageCertificate.test.js
