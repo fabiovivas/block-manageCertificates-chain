@@ -5,7 +5,7 @@ consign({ cwd: 'src', verbose: true })
     .include('./config/middlewares.js')
     .then('./services')
     .then('./controllers')
-    .then('./config/routes.js')
+    .then('./routes')
     .into(app)
 
 app.get('/', (req, res) => {
